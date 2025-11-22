@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use Sample\Workflow\Service\Workflow\Parent\GreetingParentWorkflowFacade;
+use Sample\Workflow\Dist\Workflow\Parent\GreetingParentWorkflowFacade;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 

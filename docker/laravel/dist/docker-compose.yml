@@ -1,0 +1,160 @@
+services:
+  activity-worker:
+    container_name: laravel-activity-worker
+    build:
+      context: ./
+      dockerfile: activity-worker/Dockerfile
+      args:
+        - PHP_USER=temporal
+        - PHP_UID=${PHP_UID:-1000}
+        - PHP_GID=${PHP_GID:-1000}
+    volumes:
+     - ../../../laravel/activity-worker:/var/www
+    environment:
+      - WORKFLOW_TASK_QUEUE=workflow.queue
+      - ACTIVITY_TASK_QUEUE=activity.queue
+      - TEMPORAL_SERVER_ENDPOINT=temporal.addr:7233
+      - TELEMETRY_DRIVER=otel
+      - OTEL_TRACES_EXPORTER=otlp
+      - OTEL_EXPORTER_OTLP_PROTOCOL=http/protobuf
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://collector.addr:4318
+      - OTEL_PHP_TRACES_PROCESSOR=simple
+      - TEMPORAL_HOST=temporal.addr
+      - OTEL_HOST=collector.addr
+      - OTEL_SERVICE_NAME=laravel-activity-worker
+    networks:
+      - temporal-laravel-dist
+    extra_hosts:
+      - "temporal.addr=host-gateway"
+      - "collector.addr=host-gateway"
+    command: [ "/usr/local/bin/rr", "serve", "-c", "/var/www/rr.yaml" ]
+
+  workflow-worker:
+    container_name: laravel-workflow-worker
+    build:
+      context: ./
+      dockerfile: workflow-worker/Dockerfile
+      args:
+        - PHP_USER=temporal
+        - PHP_UID=${PHP_UID:-1000}
+        - PHP_GID=${PHP_GID:-1000}
+    volumes:
+     - ../../../laravel/workflow-worker:/var/www
+    environment:
+      - WORKFLOW_TASK_QUEUE=workflow.queue
+      - ACTIVITY_TASK_QUEUE=activity.queue
+      - TEMPORAL_SERVER_ENDPOINT=temporal.addr:7233
+      - TELEMETRY_DRIVER=otel
+      - OTEL_TRACES_EXPORTER=otlp
+      - OTEL_EXPORTER_OTLP_PROTOCOL=http/protobuf
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://collector.addr:4318
+      - OTEL_PHP_TRACES_PROCESSOR=simple
+      - TEMPORAL_HOST=temporal.addr
+      - OTEL_HOST=collector.addr
+      - OTEL_SERVICE_NAME=laravel-workflow-worker
+    networks:
+      - temporal-laravel-dist
+    extra_hosts:
+      - "temporal.addr=host-gateway"
+      - "collector.addr=host-gateway"
+    command: [ "/usr/local/bin/rr", "serve", "-c", "/var/www/rr.yaml" ]
+
+  workflow-api-nginx-unit:
+    container_name: laravel-workflow-api-nginx-unit
+    build:
+      context: ./
+      dockerfile: workflow-api/nginx-unit/Dockerfile
+      args:
+        - PHP_USER=temporal
+        - PHP_UID=${PHP_UID:-1000}
+        - PHP_GID=${PHP_GID:-1000}
+    volumes:
+     - ../../../laravel/workflow-api:/var/www
+    environment:
+      - WORKFLOW_TASK_QUEUE=workflow.queue
+      - ACTIVITY_TASK_QUEUE=activity.queue
+      - TEMPORAL_SERVER_ENDPOINT=temporal.addr:7233
+      - TELEMETRY_DRIVER=otel
+      - OTEL_TRACES_EXPORTER=otlp
+      - OTEL_EXPORTER_OTLP_PROTOCOL=http/protobuf
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://collector.addr:4318
+      - OTEL_PHP_TRACES_PROCESSOR=simple
+      - TEMPORAL_HOST=temporal.addr
+      - OTEL_HOST=collector.addr
+      - OTEL_SERVICE_NAME=laravel-workflow-api
+    networks:
+      - temporal-laravel-dist
+    ports:
+      - 9400:80
+    extra_hosts:
+      - "temporal.addr=host-gateway"
+      - "collector.addr=host-gateway"
+    command: [ "unitd", "--no-daemon", "--control", "unix:/var/run/control.unit.sock" ]
+
+  workflow-api-frankenphp:
+    container_name: laravel-workflow-api-frankenphp
+    build:
+      context: ./
+      dockerfile: workflow-api/frankenphp/Dockerfile
+      args:
+        - PHP_USER=temporal
+        - PHP_UID=${PHP_UID:-1000}
+        - PHP_GID=${PHP_GID:-1000}
+    volumes:
+     - ../../../laravel/workflow-api:/app
+    environment:
+      - WORKFLOW_TASK_QUEUE=workflow.queue
+      - ACTIVITY_TASK_QUEUE=activity.queue
+      - TEMPORAL_SERVER_ENDPOINT=temporal.addr:7233
+      - TELEMETRY_DRIVER=otel
+      - OTEL_TRACES_EXPORTER=otlp
+      - OTEL_EXPORTER_OTLP_PROTOCOL=http/protobuf
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://collector.addr:4318
+      - OTEL_PHP_TRACES_PROCESSOR=simple
+      - TEMPORAL_HOST=temporal.addr
+      - OTEL_HOST=collector.addr
+      - OTEL_SERVICE_NAME=laravel-workflow-api
+    networks:
+      - temporal-laravel-dist
+    ports:
+      - 9401:80
+    extra_hosts:
+      - "temporal.addr=host-gateway"
+      - "collector.addr=host-gateway"
+
+  workflow-api-roadrunner:
+    container_name: laravel-workflow-api-roadrunner
+    build:
+      context: ./
+      dockerfile: workflow-api/roadrunner/Dockerfile
+      args:
+        - PHP_USER=temporal
+        - PHP_UID=${PHP_UID:-1000}
+        - PHP_GID=${PHP_GID:-1000}
+    volumes:
+     - ../../../laravel/workflow-api:/var/www
+    environment:
+      - WORKFLOW_TASK_QUEUE=workflow.queue
+      - ACTIVITY_TASK_QUEUE=activity.queue
+      - TEMPORAL_SERVER_ENDPOINT=temporal.addr:7233
+      - TELEMETRY_DRIVER=otel
+      - OTEL_TRACES_EXPORTER=otlp
+      - OTEL_EXPORTER_OTLP_PROTOCOL=http/protobuf
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://collector.addr:4318
+      - OTEL_PHP_TRACES_PROCESSOR=simple
+      - TEMPORAL_HOST=temporal.addr
+      - OTEL_HOST=collector.addr
+      - OTEL_SERVICE_NAME=laravel-workflow-api
+    networks:
+      - temporal-laravel-dist
+    ports:
+      - 9402:80
+    extra_hosts:
+      - "temporal.addr=host-gateway"
+      - "collector.addr=host-gateway"
+    command: [ "/usr/local/bin/rr", "serve", "-c", "/var/www/rr.yaml" ]
+
+networks:
+  temporal-laravel-dist:
+    driver: bridge
+    name: temporal-laravel-dist

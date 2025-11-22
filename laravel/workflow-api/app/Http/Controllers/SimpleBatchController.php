@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use Sample\Workflow\Service\Workflow\SimpleBatch\SimpleBatchWorkflowFacade;
+use Sample\Workflow\Dist\Workflow\SimpleBatch\SimpleBatchWorkflowFacade;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 

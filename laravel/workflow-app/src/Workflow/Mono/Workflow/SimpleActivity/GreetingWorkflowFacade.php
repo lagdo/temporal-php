@@ -1,0 +1,21 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Sample\Workflow\Mono\Workflow\SimpleActivity;
+
+use Sample\Temporal\Facade\AbstractWorkflowFacade;
+
+/**
+ * @extends AbstractWorkflowFacade<GreetingWorkflowInterface>
+ */
+class GreetingWorkflowFacade extends AbstractWorkflowFacade
+{
+    /**
+     * @inheritDoc
+     */
+    protected static function getServiceIdentifier(): string
+    {
+        return GreetingWorkflowInterface::class;
+    }
+}

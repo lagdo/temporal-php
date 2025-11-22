@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use Sample\Workflow\Service\Workflow\MoneyBatch\MoneyBatchWorkflowFacade;
+use Sample\Workflow\Dist\Workflow\MoneyBatch\MoneyBatchWorkflowFacade;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 

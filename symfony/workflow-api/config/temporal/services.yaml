@@ -16,9 +16,9 @@ services:
         resource: '../../src/Workflow/Client/'
 
     # Application workflows
-    App\Workflow\Service\Workflow\:
+    App\Workflow\Dist\Workflow\:
         shared: false
-        resource: '../../src/Workflow/Service/Workflow/'
+        resource: '../../src/Workflow/Dist/Workflow/'
         tags: ['temporal.service.workflow']
 
     # Options for the workflow proxies
@@ -38,10 +38,10 @@ services:
         factory: ['App\Temporal\Factory\WorkflowFactory', 'simpleBatchOptions']
 
     # Workflow proxies
-    # App\Workflow\Service\Workflow\SimpleActivity\GreetingWorkflowInterface:
+    # App\Workflow\Dist\Workflow\SimpleActivity\GreetingWorkflowInterface:
     #     shared: false
     #     public: true
     #     factory: ['App\Temporal\Factory\WorkflowFactory', 'stub']
     #     arguments:
-    #         $workflow: 'App\Workflow\Service\Workflow\SimpleActivity\GreetingWorkflowInterface'
+    #         $workflow: 'App\Workflow\Dist\Workflow\SimpleActivity\GreetingWorkflowInterface'
     #         $options: '@defaultWorkflowOptions'

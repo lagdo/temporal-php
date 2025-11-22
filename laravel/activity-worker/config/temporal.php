@@ -17,9 +17,10 @@ return [
         ],
     ],
     // The items to be registered.
+    // namespace => directory
     'register' => [
         'activities' => [
-            'Sample\\Workflow\\Service\\Activity' => base_path('src/Workflow/Service/Activity'),
+            'Sample\\Workflow\\Dist\\Activity' => base_path('src/Workflow/Dist/Activity'),
         ],
     ],
 ];

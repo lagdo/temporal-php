@@ -15,19 +15,19 @@ services:
             $activityTaskQueue: '%env(ACTIVITY_TASK_QUEUE)%'
 
     # Application workflows and activities
-    App\Workflow\Service\Workflow\:
+    App\Workflow\Dist\Workflow\:
         shared: false
-        resource: '../../src/Workflow/Service/Workflow/'
+        resource: '../../src/Workflow/Dist/Workflow/'
         tags: ['temporal.service.workflow']
 
-    App\Workflow\Service\ChildWorkflow\:
+    App\Workflow\Dist\ChildWorkflow\:
         shared: false
-        resource: '../../src/Workflow/Service/ChildWorkflow/'
+        resource: '../../src/Workflow/Dist/ChildWorkflow/'
         tags: ['temporal.service.workflow.child']
 
-    App\Workflow\Service\Activity\:
+    App\Workflow\Dist\Activity\:
         shared: false
-        resource: '../../src/Workflow/Service/Activity/'
+        resource: '../../src/Workflow/Dist/Activity/'
         tags: ['temporal.service.activity']
 
     # Options for the child workflow proxies
@@ -53,10 +53,10 @@ services:
         factory: ['App\Temporal\Factory\ActivityFactory', 'simpleBatchOptions']
 
     # Activity proxies
-    # App\Workflow\Service\Activity\SimpleActivity\GreetingActivityInterface:
+    # App\Workflow\Dist\Activity\SimpleActivity\GreetingActivityInterface:
     #     shared: false
     #     public: true
     #     factory: ['App\Temporal\Factory\ActivityFactory', 'stub']
     #     arguments:
-    #         $activity: 'App\Workflow\Service\Activity\SimpleActivity\GreetingActivityInterface'
+    #         $activity: 'App\Workflow\Dist\Activity\SimpleActivity\GreetingActivityInterface'
     #         $options: '@defaultActivityOptions'

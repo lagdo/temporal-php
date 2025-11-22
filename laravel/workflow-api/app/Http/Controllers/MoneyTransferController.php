@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use Sample\Workflow\Service\Workflow\MoneyTransfer\AccountTransferWorkflowFacade;
+use Sample\Workflow\Dist\Workflow\MoneyTransfer\AccountTransferWorkflowFacade;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 

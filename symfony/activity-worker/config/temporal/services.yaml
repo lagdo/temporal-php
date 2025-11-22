@@ -7,7 +7,7 @@ services:
         autowire: true
 
     # Application activities
-    App\Workflow\Service\Activity\:
+    App\Workflow\Dist\Activity\:
         shared: false
-        resource: '../../src/Workflow/Service/Activity/'
+        resource: '../../src/Workflow/Dist/Activity/'
         tags: ['temporal.service.activity']

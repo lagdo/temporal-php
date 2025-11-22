@@ -1,0 +1,83 @@
+parameters:
+    # The value must be the key of an entry in the "services" section.
+    workflowDefaultOptions: defaultWorkflowOptions
+    childWorkflowDefaultOptions: defaultChildWorkflowOptions
+    activityDefaultOptions: defaultActivityOptions
+
+services:
+    # default configuration for services in *this* file
+    _defaults:
+        autowire: true      # Automatically injects dependencies in your services.
+        bind:
+            # Queue for the workflow workers
+            $workflowTaskQueue: '%env(TEMPORAL_TASK_QUEUE)%'
+            # Queue for the activity workers
+            $activityTaskQueue: '%env(TEMPORAL_TASK_QUEUE)%'
+
+    # Workflow client library
+    App\Workflow\Client\:
+        shared: false
+        resource: '../../src/Workflow/Client/'
+
+    # Application workflows and activities
+    App\Workflow\Mono\Workflow\:
+        shared: false
+        resource: '../../src/Workflow/Mono/Workflow/'
+        tags: ['temporal.service.workflow']
+
+    App\Workflow\Mono\ChildWorkflow\:
+        shared: false
+        resource: '../../src/Workflow/Mono/ChildWorkflow/'
+        tags: ['temporal.service.workflow.child']
+
+    App\Workflow\Mono\Activity\:
+        shared: false
+        resource: '../../src/Workflow/Mono/Activity/'
+        tags: ['temporal.service.activity']
+
+    # Options for the workflow proxies
+    defaultWorkflowOptions:
+        shared: false
+        class: 'Temporal\Client\WorkflowOptions'
+        factory: ['App\Temporal\Factory\WorkflowFactory', 'defaultOptions']
+
+    moneyBatchWorkflowOptions:
+        shared: false
+        class: 'Temporal\Client\WorkflowOptions'
+        factory: ['App\Temporal\Factory\WorkflowFactory', 'moneyBatchOptions']
+
+    simpleBatchWorkflowOptions:
+        shared: false
+        class: 'Temporal\Client\WorkflowOptions'
+        factory: ['App\Temporal\Factory\WorkflowFactory', 'simpleBatchOptions']
+
+    # Options for the child workflow proxies
+    defaultChildWorkflowOptions:
+        shared: false
+        class: 'Temporal\Workflow\ChildWorkflowOptions'
+        factory: ['App\Temporal\Factory\ChildWorkflowFactory', 'defaultOptions']
+
+    # Options for the activity proxies
+    defaultActivityOptions:
+        shared: false
+        class: 'Temporal\Activity\ActivityOptions'
+        factory: ['App\Temporal\Factory\ActivityFactory', 'defaultOptions']
+
+    moneyBatchActivityOptions:
+        shared: false
+        class: 'Temporal\Activity\ActivityOptions'
+        factory: ['App\Temporal\Factory\ActivityFactory', 'moneyBatchOptions']
+
+    simpleBatchActivityOptions:
+        shared: false
+        class: 'Temporal\Activity\ActivityOptions'
+        factory: ['App\Temporal\Factory\ActivityFactory', 'simpleBatchOptions']
+
+    # Workflow proxies
+    # App\Workflow\Mono\Workflow\SimpleActivity\GreetingWorkflowInterface:
+    #     shared: false
+    #     public: true
+    #     factory: ['App\Temporal\Factory\WorkflowFactory', 'stub']
+    #     arguments:
+    #         $workflow: 'App\Workflow\Mono\Workflow\SimpleActivity\GreetingWorkflowInterface'
+    #         $options: '@defaultWorkflowOptions'

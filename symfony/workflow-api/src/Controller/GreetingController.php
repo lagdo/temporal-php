@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Workflow\Service\Workflow\SimpleActivity\GreetingWorkflowFacade;
+use App\Workflow\Dist\Workflow\SimpleActivity\GreetingWorkflowFacade;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;

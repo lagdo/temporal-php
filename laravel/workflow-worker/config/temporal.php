@@ -17,15 +17,16 @@ return [
         ],
     ],
     // The items to be registered.
+    // namespace => directory
     'register' => [
         'workflows' => [
-            'Sample\\Workflow\\Service\\Workflow' => base_path('src/Workflow/Service/Workflow'),
+            'Sample\\Workflow\\Dist\\Workflow' => base_path('src/Workflow/Dist/Workflow'),
         ],
         'child_workflows' => [
-            'Sample\\Workflow\\Service\\ChildWorkflow' => base_path('src/Workflow/Service/ChildWorkflow'),
+            'Sample\\Workflow\\Dist\\ChildWorkflow' => base_path('src/Workflow/Dist/ChildWorkflow'),
         ],
         'activities' => [
-            'Sample\\Workflow\\Service\\Activity' => base_path('src/Workflow/Service/Activity'),
+            'Sample\\Workflow\\Dist\\Activity' => base_path('src/Workflow/Dist/Activity'),
         ],
     ],
 ];
