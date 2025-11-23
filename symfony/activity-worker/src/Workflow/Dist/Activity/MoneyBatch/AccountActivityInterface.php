@@ -13,7 +13,7 @@ namespace App\Workflow\Dist\Activity\MoneyBatch;
 
 use Temporal\Activity\ActivityInterface;
 
-#[ActivityInterface(prefix: "MoneyBatch.")]
+#[ActivityInterface(prefix: 'SD.MoneyBatch.')]
 interface AccountActivityInterface
 {
     /**

@@ -26,6 +26,6 @@ interface AccountTransferWorkflowInterface
      *
      * @return Generator|int
      */
-    #[WorkflowMethod(name: "MoneyTransfer")]
+    #[WorkflowMethod(name: 'LM.MoneyTransfer')]
     public function transfer(string $fromAccountId, string $toAccountId, string $referenceId, int $amountCents): Generator|int;
 }

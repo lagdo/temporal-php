@@ -24,7 +24,7 @@ interface GreetingWorkflowInterface
      *
      * @return Generator
      */
-    #[WorkflowMethod(name: "SimpleActivity.greet")]
+    #[WorkflowMethod(name: 'LD.SimpleActivity.greet')]
     public function greet(string $name): Generator;
 }
 // @@@SNIPEND

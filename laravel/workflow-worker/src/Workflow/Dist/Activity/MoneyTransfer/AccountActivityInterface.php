@@ -14,7 +14,7 @@ namespace Sample\Workflow\Dist\Activity\MoneyTransfer;
 use Sample\Temporal\Attribute\ActivityOptions;
 use Temporal\Activity\ActivityInterface;
 
-#[ActivityInterface(prefix: "MoneyTransfer.")]
+#[ActivityInterface(prefix: 'LD.MoneyTransfer.')]
 #[ActivityOptions(idInDiContainer: "defaultActivityOptions")]
 interface AccountActivityInterface
 {

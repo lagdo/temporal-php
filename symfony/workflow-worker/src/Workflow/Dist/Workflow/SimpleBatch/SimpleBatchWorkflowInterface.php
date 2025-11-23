@@ -18,7 +18,7 @@ interface SimpleBatchWorkflowInterface
      *
      * @return Generator
      */
-    #[WorkflowMethod(name: "SimpleBatch")]
+    #[WorkflowMethod(name: 'SD.SimpleBatch')]
     #[ReturnType("string")]
     public function start(int $batchId, int $minItemCount = 20, int $maxItemCount = 50): Generator;
 

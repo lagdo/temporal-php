@@ -13,7 +13,7 @@ namespace App\Workflow\Dist\Activity\MoneyTransfer;
 
 use Temporal\Activity\ActivityInterface;
 
-#[ActivityInterface(prefix: "MoneyTransfer.")]
+#[ActivityInterface(prefix: 'SD.MoneyTransfer.')]
 interface AccountActivityInterface
 {
     /**

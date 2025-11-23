@@ -25,6 +25,6 @@ interface SimpleBatchChildWorkflowInterface
      *
      * @return Generator
      */
-    #[WorkflowMethod(name: "SimpleBatch.processItem")]
+    #[WorkflowMethod(name: 'SM.SimpleBatch.processItem')]
     public function processItem(int $itemId, int $batchId, array $options): Generator;
 }

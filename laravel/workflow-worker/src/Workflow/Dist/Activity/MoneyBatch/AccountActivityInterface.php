@@ -14,7 +14,7 @@ namespace Sample\Workflow\Dist\Activity\MoneyBatch;
 use Sample\Temporal\Attribute\ActivityOptions;
 use Temporal\Activity\ActivityInterface;
 
-#[ActivityInterface(prefix: "MoneyBatch.")]
+#[ActivityInterface(prefix: 'LD.MoneyBatch.')]
 #[ActivityOptions(idInDiContainer: "moneyBatchActivityOptions")]
 interface AccountActivityInterface
 {

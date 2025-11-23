@@ -7,7 +7,7 @@ namespace Sample\Workflow\Dist\Activity\SimpleBatch;
 use Sample\Temporal\Attribute\ActivityOptions;
 use Temporal\Activity\ActivityInterface;
 
-#[ActivityInterface(prefix: "SimpleBatch.")]
+#[ActivityInterface(prefix: 'LD.SimpleBatch.')]
 #[ActivityOptions(idInDiContainer: "simpleBatchActivityOptions")]
 interface SimpleBatchActivityInterface
 {

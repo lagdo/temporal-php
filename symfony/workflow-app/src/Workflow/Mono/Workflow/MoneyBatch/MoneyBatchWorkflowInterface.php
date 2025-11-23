@@ -25,7 +25,7 @@ interface MoneyBatchWorkflowInterface
     /**
      * @return Generator
      */
-    #[WorkflowMethod(name: "MoneyBatch")]
+    #[WorkflowMethod(name: 'SM.MoneyBatch')]
     public function deposit(string $toAccountId, int $batchSize): Generator;
 
     /**
