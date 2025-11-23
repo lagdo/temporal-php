@@ -11,7 +11,7 @@ services:
     volumes:
      - ../../../laravel/workflow-app:/var/www
     environment:
-      - TEMPORAL_TASK_QUEUE=temporal.queue
+      - TEMPORAL_TASK_QUEUE=temporal.laravel.queue
       - TEMPORAL_SERVER_ENDPOINT=temporal.addr:7233
       - TELEMETRY_DRIVER=otel
       - OTEL_TRACES_EXPORTER=otlp

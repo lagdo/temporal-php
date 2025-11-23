@@ -11,8 +11,8 @@ services:
     volumes:
      - ../../../symfony/activity-worker:/var/www
     environment:
-      - WORKFLOW_TASK_QUEUE=workflow.queue
-      - ACTIVITY_TASK_QUEUE=activity.queue
+      - WORKFLOW_TASK_QUEUE=workflow.symfony.queue
+      - ACTIVITY_TASK_QUEUE=activity.symfony.queue
       - TEMPORAL_SERVER_ENDPOINT=temporal.addr:7233
       - TELEMETRY_DRIVER=otel
       - OTEL_TRACES_EXPORTER=otlp
@@ -41,8 +41,8 @@ services:
     volumes:
      - ../../../symfony/workflow-worker:/var/www
     environment:
-      - WORKFLOW_TASK_QUEUE=workflow.queue
-      - ACTIVITY_TASK_QUEUE=activity.queue
+      - WORKFLOW_TASK_QUEUE=workflow.symfony.queue
+      - ACTIVITY_TASK_QUEUE=activity.symfony.queue
       - TEMPORAL_SERVER_ENDPOINT=temporal.addr:7233
       - TELEMETRY_DRIVER=otel
       - OTEL_TRACES_EXPORTER=otlp
@@ -71,8 +71,8 @@ services:
     volumes:
      - ../../../symfony/workflow-api:/var/www
     environment:
-      - WORKFLOW_TASK_QUEUE=workflow.queue
-      - ACTIVITY_TASK_QUEUE=activity.queue
+      - WORKFLOW_TASK_QUEUE=workflow.symfony.queue
+      - ACTIVITY_TASK_QUEUE=activity.symfony.queue
       - TEMPORAL_SERVER_ENDPOINT=temporal.addr:7233
       - TELEMETRY_DRIVER=otel
       - OTEL_TRACES_EXPORTER=otlp
@@ -103,8 +103,8 @@ services:
     volumes:
      - ../../../symfony/workflow-api:/app
     environment:
-      - WORKFLOW_TASK_QUEUE=workflow.queue
-      - ACTIVITY_TASK_QUEUE=activity.queue
+      - WORKFLOW_TASK_QUEUE=workflow.symfony.queue
+      - ACTIVITY_TASK_QUEUE=activity.symfony.queue
       - TEMPORAL_SERVER_ENDPOINT=temporal.addr:7233
       - TELEMETRY_DRIVER=otel
       - OTEL_TRACES_EXPORTER=otlp
@@ -134,8 +134,8 @@ services:
     volumes:
      - ../../../symfony/workflow-api:/var/www
     environment:
-      - WORKFLOW_TASK_QUEUE=workflow.queue
-      - ACTIVITY_TASK_QUEUE=activity.queue
+      - WORKFLOW_TASK_QUEUE=workflow.symfony.queue
+      - ACTIVITY_TASK_QUEUE=activity.symfony.queue
       - TEMPORAL_SERVER_ENDPOINT=temporal.addr:7233
       - TELEMETRY_DRIVER=otel
       - OTEL_TRACES_EXPORTER=otlp
