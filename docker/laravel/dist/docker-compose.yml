@@ -27,7 +27,6 @@ services:
     extra_hosts:
       - "temporal.addr=host-gateway"
       - "collector.addr=host-gateway"
-    command: [ "/usr/local/bin/rr", "serve", "-c", "/var/www/rr.yaml" ]
 
   workflow-worker:
     container_name: laravel-workflow-worker
@@ -57,7 +56,6 @@ services:
     extra_hosts:
       - "temporal.addr=host-gateway"
       - "collector.addr=host-gateway"
-    command: [ "/usr/local/bin/rr", "serve", "-c", "/var/www/rr.yaml" ]
 
   workflow-api-nginx-unit:
     container_name: laravel-workflow-api-nginx-unit
@@ -89,7 +87,6 @@ services:
     extra_hosts:
       - "temporal.addr=host-gateway"
       - "collector.addr=host-gateway"
-    command: [ "unitd", "--no-daemon", "--control", "unix:/var/run/control.unit.sock" ]
 
   workflow-api-frankenphp:
     container_name: laravel-workflow-api-frankenphp
@@ -101,7 +98,7 @@ services:
         - PHP_UID=${PHP_UID:-1000}
         - PHP_GID=${PHP_GID:-1000}
     volumes:
-     - ../../../laravel/workflow-api:/app
+     - ../../../laravel/workflow-api:/var/www
     environment:
       - WORKFLOW_TASK_QUEUE=workflow.laravel.queue
       - ACTIVITY_TASK_QUEUE=activity.laravel.queue
@@ -152,7 +149,6 @@ services:
     extra_hosts:
       - "temporal.addr=host-gateway"
       - "collector.addr=host-gateway"
-    command: [ "/usr/local/bin/rr", "serve", "-c", "/var/www/rr.yaml" ]
 
 networks:
   temporal-laravel-dist:

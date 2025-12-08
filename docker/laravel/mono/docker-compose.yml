@@ -28,7 +28,6 @@ services:
     extra_hosts:
       - "temporal.addr=host-gateway"
       - "collector.addr=host-gateway"
-    command: [ "/usr/local/bin/rr", "serve", "-c", "/var/www/rr.yaml" ]
 
 networks:
   temporal-laravel-mono:
