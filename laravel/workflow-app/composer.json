@@ -16,7 +16,7 @@
         "roadrunner-php/laravel-bridge": "^6.1",
         "spiral/tokenizer": "^3.15",
         "temporal/open-telemetry-interceptors": "^1.0",
-        "temporal/sdk": "^2.15",
+        "temporal/sdk": "^2.16",
         "wotz/laravel-swagger-ui": "^1.2"
     },
     "require-dev": {
