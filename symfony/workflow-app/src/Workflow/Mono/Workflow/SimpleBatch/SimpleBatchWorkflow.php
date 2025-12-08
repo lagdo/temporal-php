@@ -64,9 +64,8 @@ class SimpleBatchWorkflow implements SimpleBatchWorkflowInterface
                     'message' => $e->getMessage(),
                 ]
             );
-            // We are calling always() instead of finally() because the Temporal PHP SDK depends on
-            // react/promise 2.9. Need to be changed to finally() after upgrade to react/promise 3.x.
-            $promises[$itemId] = $promise->always(fn() => $this->pending[$itemId] = false);
+            // Execute this callback each time a task ends, whatever the status.
+            $promises[$itemId] = $promise->finally(fn() => $this->pending[$itemId] = false);
             // $promises[$itemId] = SimpleBatchChildWorkflowFacade::processItem($itemId, $batchId, $options);
         }
 
