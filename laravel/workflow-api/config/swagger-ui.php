@@ -14,7 +14,7 @@ return [
             /*
              * The title of the page where the swagger file is served.
              */
-            'title' => env('APP_NAME') . ' - Swagger',
+            'title' => 'Temporal Laravel samples',
 
             /*
              * The versions of the swagger file. The key is the version name and the value is the path to the file.
@@ -50,7 +50,7 @@ return [
             /*
              * The server URL configuration for the swagger file.
              */
-            'server_url' => env('APP_URL') . ':9300',
+            'server_url' => env('APP_URL') . ':9400',
 
             /*
              * The oauth configuration for the swagger file.
