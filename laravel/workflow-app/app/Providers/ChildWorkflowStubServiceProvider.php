@@ -4,9 +4,10 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Lagdo\Facades\AbstractFacade;
-use Sample\Temporal\Attribute\ChildWorkflowOptions;
+use Sample\Temporal\Attribute\ChildWorkflowOptions as ChildWorkflowAttributes;
 use Sample\Temporal\Factory\ChildWorkflowFactory;
 use Sample\Temporal\Factory\ClassReaderTrait;
+use Temporal\Workflow\ChildWorkflowOptions;
 use Temporal\Workflow\WorkflowInterface;
 use ReflectionClass;
 use ReflectionException;
@@ -33,6 +34,12 @@ class ChildWorkflowStubServiceProvider extends ServiceProvider
                 $this->registerChildWorkflowStub($workflowClass);
             }
         }
+
+        // Default child workflow options
+        $this->app->scoped('defaultChildWorkflowOptions', function(): ChildWorkflowOptions {
+            return ChildWorkflowOptions::new()
+                ->withTaskQueue(config('temporal.runtime.queue.default'));
+        });
     }
 
     /**
@@ -99,7 +106,7 @@ class ChildWorkflowStubServiceProvider extends ServiceProvider
      */
     private function getOptionsIdInDiContainer(ReflectionClass $workflowInterface): string
     {
-        $attributes = $workflowInterface->getAttributes(ChildWorkflowOptions::class);
+        $attributes = $workflowInterface->getAttributes(ChildWorkflowAttributes::class);
         return count($attributes) > 0 ?
             $attributes[0]->newInstance()->idInDiContainer :
             config('childWorkflowDefaultOptions', 'defaultChildWorkflowOptions');

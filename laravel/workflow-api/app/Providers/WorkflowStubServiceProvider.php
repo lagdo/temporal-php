@@ -2,12 +2,14 @@
 
 namespace App\Providers;
 
+use Carbon\CarbonInterval;
 use Illuminate\Support\ServiceProvider;
 use Lagdo\Facades\AbstractFacade;
-use Sample\Temporal\Attribute\WorkflowOptions;
+use Sample\Temporal\Attribute\WorkflowOptions as WorkflowAttributes;
 use Sample\Temporal\Factory\ClassReaderTrait;
 use Sample\Temporal\Factory\WorkflowFactory;
 use Temporal\Client\WorkflowClientInterface;
+use Temporal\Client\WorkflowOptions;
 use Temporal\Workflow\WorkflowInterface;
 use ReflectionClass;
 use ReflectionException;
@@ -34,6 +36,27 @@ class WorkflowStubServiceProvider extends ServiceProvider
                 $this->registerWorkflowStub($workflowClass);
             }
         }
+
+        // Default workflow options
+        $this->app->scoped('defaultWorkflowOptions', function(): WorkflowOptions {
+            return WorkflowOptions::new()
+                ->withTaskQueue(config('temporal.runtime.queue.workflow'))
+                ->withWorkflowExecutionTimeout(CarbonInterval::minute());
+        });
+
+        // Money batch workflow options
+        $this->app->scoped('moneyBatchWorkflowOptions', function(): WorkflowOptions {
+            return WorkflowOptions::new()
+                ->withTaskQueue(config('temporal.runtime.queue.workflow'))
+                ->withWorkflowExecutionTimeout(CarbonInterval::hour());
+        });
+
+        // Simple batch workflow options
+        $this->app->scoped('simpleBatchWorkflowOptions', function(): WorkflowOptions {
+            return WorkflowOptions::new()
+                ->withTaskQueue(config('temporal.runtime.queue.workflow'))
+                ->withWorkflowExecutionTimeout(CarbonInterval::week());
+        });
     }
 
     /**
@@ -101,7 +124,7 @@ class WorkflowStubServiceProvider extends ServiceProvider
      */
     public function getOptionsIdInDiContainer(ReflectionClass $workflowInterface): string
     {
-        $attributes = $workflowInterface->getAttributes(WorkflowOptions::class);
+        $attributes = $workflowInterface->getAttributes(WorkflowAttributes::class);
         return count($attributes) > 0 ?
             $attributes[0]->newInstance()->idInDiContainer :
             config('workflowDefaultOptions', 'defaultWorkflowOptions');

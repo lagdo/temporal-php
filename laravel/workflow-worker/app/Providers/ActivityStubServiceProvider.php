@@ -2,12 +2,15 @@
 
 namespace App\Providers;
 
+use Carbon\CarbonInterval;
 use Illuminate\Support\ServiceProvider;
 use Lagdo\Facades\AbstractFacade;
-use Sample\Temporal\Attribute\ActivityOptions;
+use Sample\Temporal\Attribute\ActivityOptions as ActivityAttributes;
 use Sample\Temporal\Factory\ActivityFactory;
 use Sample\Temporal\Factory\ClassReaderTrait;
 use Temporal\Activity\ActivityInterface;
+use Temporal\Activity\ActivityOptions;
+use Temporal\Common\RetryOptions;
 use ReflectionClass;
 use ReflectionException;
 
@@ -33,6 +36,45 @@ class ActivityStubServiceProvider extends ServiceProvider
                 $this->registerActivityStub($activityClass);
             }
         }
+
+        // Default activity options
+        $this->app->scoped('defaultActivityOptions', function(): ActivityOptions {
+            return ActivityOptions::new()
+                ->withTaskQueue(config('temporal.runtime.queue.activity'))
+                ->withStartToCloseTimeout(CarbonInterval::seconds(15))
+                ->withRetryOptions(
+                    RetryOptions::new()->withMaximumAttempts(10)
+                );
+        });
+
+        // Money batch activity options
+        $this->app->scoped('moneyBatchActivityOptions', function(): ActivityOptions {
+            return ActivityOptions::new()
+                ->withTaskQueue(config('temporal.runtime.queue.activity'))
+                ->withStartToCloseTimeout(CarbonInterval::seconds(15))
+                ->withScheduleToCloseTimeout(CarbonInterval::hour(1))
+                ->withRetryOptions(
+                    RetryOptions::new()
+                        ->withMaximumAttempts(10)
+                        ->withInitialInterval(CarbonInterval::second(1))
+                        ->withMaximumInterval(CarbonInterval::seconds(10))
+                );
+        });
+
+        // Simple batch activity options
+        $this->app->scoped('simpleBatchActivityOptions', function(): ActivityOptions {
+            return ActivityOptions::new()
+                ->withTaskQueue(config('temporal.runtime.queue.activity'))
+                ->withStartToCloseTimeout(CarbonInterval::seconds(10))
+                ->withScheduleToStartTimeout(CarbonInterval::seconds(10))
+                ->withScheduleToCloseTimeout(CarbonInterval::minutes(30))
+                ->withRetryOptions(
+                    RetryOptions::new()
+                        ->withMaximumAttempts(100)
+                        ->withInitialInterval(CarbonInterval::second(10))
+                        ->withMaximumInterval(CarbonInterval::seconds(100))
+                );
+        });
     }
 
     /**
@@ -99,7 +141,7 @@ class ActivityStubServiceProvider extends ServiceProvider
      */
     private function getOptionsIdInDiContainer(ReflectionClass $activityInterface): string
     {
-        $attributes = $activityInterface->getAttributes(ActivityOptions::class);
+        $attributes = $activityInterface->getAttributes(ActivityAttributes::class);
         return count($attributes) > 0 ?
             $attributes[0]->newInstance()->idInDiContainer :
             config('activityDefaultOptions', 'defaultActivityOptions');
