@@ -15,7 +15,7 @@ use function substr;
 trait ClassReaderTrait
 {
     /**
-     * Read PHP classes from a directory
+     * Read PHP classes in a directory
      *
      * @param string $directory
      * @param string $namespace
