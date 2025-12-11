@@ -57,100 +57,101 @@ services:
       - "temporal.addr=host-gateway"
       - "collector.addr=host-gateway"
 
-  workflow-api-nginx-unit:
-    container_name: symfony-workflow-api-nginx-unit
-    build:
-      context: ./
-      dockerfile: workflow-api/nginx-unit/Dockerfile
-      args:
-        - PHP_USER=temporal
-        - PHP_UID=${PHP_UID:-1000}
-        - PHP_GID=${PHP_GID:-1000}
-    volumes:
-     - ../../../symfony/workflow-api:/var/www
-    environment:
-      - WORKFLOW_TASK_QUEUE=workflow.symfony.queue
-      - ACTIVITY_TASK_QUEUE=activity.symfony.queue
-      - TEMPORAL_SERVER_ENDPOINT=temporal.addr:7233
-      - TELEMETRY_DRIVER=otel
-      - OTEL_TRACES_EXPORTER=otlp
-      - OTEL_EXPORTER_OTLP_PROTOCOL=http/protobuf
-      - OTEL_EXPORTER_OTLP_ENDPOINT=http://collector.addr:4318
-      - OTEL_PHP_TRACES_PROCESSOR=simple
-      - TEMPORAL_HOST=temporal.addr
-      - OTEL_HOST=collector.addr
-      - OTEL_SERVICE_NAME=symfony-workflow-api
-    networks:
-      - temporal-symfony-dist
-    ports:
-      - 9300:80
-    extra_hosts:
-      - "temporal.addr=host-gateway"
-      - "collector.addr=host-gateway"
+  # workflow-api-nginx-unit:
+  #   container_name: symfony-workflow-api-nginx-unit
+  #   build:
+  #     context: ./
+  #     dockerfile: workflow-api/nginx-unit/Dockerfile
+  #     args:
+  #       - PHP_USER=temporal
+  #       - PHP_UID=${PHP_UID:-1000}
+  #       - PHP_GID=${PHP_GID:-1000}
+  #   volumes:
+  #    - ../../../symfony/workflow-api:/var/www
+  #   environment:
+  #     - WORKFLOW_TASK_QUEUE=workflow.symfony.queue
+  #     - ACTIVITY_TASK_QUEUE=activity.symfony.queue
+  #     - TEMPORAL_SERVER_ENDPOINT=temporal.addr:7233
+  #     - TELEMETRY_DRIVER=otel
+  #     - OTEL_TRACES_EXPORTER=otlp
+  #     - OTEL_EXPORTER_OTLP_PROTOCOL=http/protobuf
+  #     - OTEL_EXPORTER_OTLP_ENDPOINT=http://collector.addr:4318
+  #     - OTEL_PHP_TRACES_PROCESSOR=simple
+  #     - TEMPORAL_HOST=temporal.addr
+  #     - OTEL_HOST=collector.addr
+  #     - OTEL_SERVICE_NAME=symfony-workflow-api
+  #   networks:
+  #     - temporal-symfony-dist
+  #   ports:
+  #     - 9300:80
+  #   extra_hosts:
+  #     - "temporal.addr=host-gateway"
+  #     - "collector.addr=host-gateway"
 
-  workflow-api-frankenphp:
-    container_name: symfony-workflow-api-frankenphp
-    build:
-      context: ./
-      dockerfile: workflow-api/frankenphp/Dockerfile
-      args:
-        - PHP_USER=temporal
-        - PHP_UID=${PHP_UID:-1000}
-        - PHP_GID=${PHP_GID:-1000}
-    volumes:
-     - ../../../symfony/workflow-api:/var/www
-    environment:
-      - WORKFLOW_TASK_QUEUE=workflow.symfony.queue
-      - ACTIVITY_TASK_QUEUE=activity.symfony.queue
-      - TEMPORAL_SERVER_ENDPOINT=temporal.addr:7233
-      - TELEMETRY_DRIVER=otel
-      - OTEL_TRACES_EXPORTER=otlp
-      - OTEL_EXPORTER_OTLP_PROTOCOL=http/protobuf
-      - OTEL_EXPORTER_OTLP_ENDPOINT=http://collector.addr:4318
-      - OTEL_PHP_TRACES_PROCESSOR=simple
-      - TEMPORAL_HOST=temporal.addr
-      - OTEL_HOST=collector.addr
-      - OTEL_SERVICE_NAME=symfony-workflow-api
-    networks:
-      - temporal-symfony-dist
-    ports:
-      - 9301:80
-    extra_hosts:
-      - "temporal.addr=host-gateway"
-      - "collector.addr=host-gateway"
+  # workflow-api-frankenphp:
+  #   container_name: symfony-workflow-api-frankenphp
+  #   build:
+  #     context: ./
+  #     dockerfile: workflow-api/frankenphp/Dockerfile
+  #     args:
+  #       - PHP_USER=temporal
+  #       - PHP_UID=${PHP_UID:-1000}
+  #       - PHP_GID=${PHP_GID:-1000}
+  #   volumes:
+  #    - ../../../symfony/workflow-api:/var/www
+  #   environment:
+  #     - WORKFLOW_TASK_QUEUE=workflow.symfony.queue
+  #     - ACTIVITY_TASK_QUEUE=activity.symfony.queue
+  #     - TEMPORAL_SERVER_ENDPOINT=temporal.addr:7233
+  #     - TELEMETRY_DRIVER=otel
+  #     - OTEL_TRACES_EXPORTER=otlp
+  #     - OTEL_EXPORTER_OTLP_PROTOCOL=http/protobuf
+  #     - OTEL_EXPORTER_OTLP_ENDPOINT=http://collector.addr:4318
+  #     - OTEL_PHP_TRACES_PROCESSOR=simple
+  #     - TEMPORAL_HOST=temporal.addr
+  #     - OTEL_HOST=collector.addr
+  #     - OTEL_SERVICE_NAME=symfony-workflow-api
+  #   networks:
+  #     - temporal-symfony-dist
+  #   ports:
+  #     - 9301:80
+  #   extra_hosts:
+  #     - "temporal.addr=host-gateway"
+  #     - "collector.addr=host-gateway"
 
-  workflow-api-roadrunner:
-    container_name: symfony-workflow-api-roadrunner
-    build:
-      context: ./
-      dockerfile: workflow-api/roadrunner/Dockerfile
-      args:
-        - PHP_USER=temporal
-        - PHP_UID=${PHP_UID:-1000}
-        - PHP_GID=${PHP_GID:-1000}
-    volumes:
-     - ../../../symfony/workflow-api:/var/www
-    environment:
-      - WORKFLOW_TASK_QUEUE=workflow.symfony.queue
-      - ACTIVITY_TASK_QUEUE=activity.symfony.queue
-      - TEMPORAL_SERVER_ENDPOINT=temporal.addr:7233
-      - TELEMETRY_DRIVER=otel
-      - OTEL_TRACES_EXPORTER=otlp
-      - OTEL_EXPORTER_OTLP_PROTOCOL=http/protobuf
-      - OTEL_EXPORTER_OTLP_ENDPOINT=http://collector.addr:4318
-      - OTEL_PHP_TRACES_PROCESSOR=simple
-      - TEMPORAL_HOST=temporal.addr
-      - OTEL_HOST=collector.addr
-      - OTEL_SERVICE_NAME=symfony-workflow-api
-    networks:
-      - temporal-symfony-dist
-    ports:
-      - 9302:80
-    extra_hosts:
-      - "temporal.addr=host-gateway"
-      - "collector.addr=host-gateway"
+  # workflow-api-roadrunner:
+  #   container_name: symfony-workflow-api-roadrunner
+  #   build:
+  #     context: ./
+  #     dockerfile: workflow-api/roadrunner/Dockerfile
+  #     args:
+  #       - PHP_USER=temporal
+  #       - PHP_UID=${PHP_UID:-1000}
+  #       - PHP_GID=${PHP_GID:-1000}
+  #   volumes:
+  #    - ../../../symfony/workflow-api:/var/www
+  #   environment:
+  #     - WORKFLOW_TASK_QUEUE=workflow.symfony.queue
+  #     - ACTIVITY_TASK_QUEUE=activity.symfony.queue
+  #     - TEMPORAL_SERVER_ENDPOINT=temporal.addr:7233
+  #     - TELEMETRY_DRIVER=otel
+  #     - OTEL_TRACES_EXPORTER=otlp
+  #     - OTEL_EXPORTER_OTLP_PROTOCOL=http/protobuf
+  #     - OTEL_EXPORTER_OTLP_ENDPOINT=http://collector.addr:4318
+  #     - OTEL_PHP_TRACES_PROCESSOR=simple
+  #     - TEMPORAL_HOST=temporal.addr
+  #     - OTEL_HOST=collector.addr
+  #     - OTEL_SERVICE_NAME=symfony-workflow-api
+  #   networks:
+  #     - temporal-symfony-dist
+  #   ports:
+  #     - 9302:80
+  #   extra_hosts:
+  #     - "temporal.addr=host-gateway"
+  #     - "collector.addr=host-gateway"
 
-  workflow-api-phpfpm:
+  # workflow-api-phpfpm:
+  workflow-api:
     container_name: symfony-workflow-api-phpfpm
     build:
       context: ./
