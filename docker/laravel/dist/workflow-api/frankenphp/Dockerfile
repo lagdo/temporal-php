@@ -7,9 +7,13 @@ ENV PHP_USER=${PHP_USER}
 ENV PHP_UID=${PHP_UID}
 ENV PHP_GID=${PHP_GID}
 
-ENV COMPOSER_RUN=true
-ENV COMPOSER_RUN_DIR=/var/www
-ENV COMPOSER_RUN_USER=
+ENV COMMAND_DIR=/var/www
+ENV COMMAND_USER=
+
+ENV RUN_INSTALL=true
+
+ENV RUN_CACHE_CLEAR=true
+ENV CACHE_CLEAR_COMMAND="artisan cache:clear"
 
 # Be sure to replace "your-domain-name.example.com" by your domain name
 # ENV SERVER_NAME=your-domain-name.example.com

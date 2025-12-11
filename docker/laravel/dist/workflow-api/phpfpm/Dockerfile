@@ -7,9 +7,13 @@ ENV PHP_USER=${PHP_USER}
 ENV PHP_UID=${PHP_UID}
 ENV PHP_GID=${PHP_GID}
 
-ENV COMPOSER_RUN=true
-ENV COMPOSER_RUN_DIR=/var/www
-ENV COMPOSER_RUN_USER=
+ENV COMMAND_DIR=/var/www
+ENV COMMAND_USER=
+
+ENV RUN_INSTALL=true
+
+ENV RUN_CACHE_CLEAR=true
+ENV CACHE_CLEAR_COMMAND="artisan cache:clear"
 
 RUN set -xe && \
   apk add --no-cache --virtual .build-deps bash git wget vim supervisor nginx && \
@@ -23,7 +27,7 @@ RUN set -xe && \
   # Create project root
   mkdir -p /var/www && \
   # Make sure files/folders needed by the processes are accessible
-  chown -R ${PHP_USER}:${PHP_USER} /var/www /run/nginx /var/lib/nginx /var/log/nginx
+  chown -R ${PHP_USER}:${PHP_USER} /var/www /run /var/lib/nginx /var/log/nginx
 
 # Configure Supervisord
 COPY workflow-api/phpfpm/config/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
