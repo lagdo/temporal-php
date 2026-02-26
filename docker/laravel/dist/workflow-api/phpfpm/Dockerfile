@@ -8,10 +8,8 @@ ENV PHP_UID=${PHP_UID}
 ENV PHP_GID=${PHP_GID}
 
 ENV COMMAND_DIR=/var/www
-ENV COMMAND_USER=
-
 ENV RUN_INSTALL=true
-
+ENV INSTALL_OPTIONS=install
 ENV RUN_CACHE_CLEAR=true
 ENV CACHE_CLEAR_COMMAND="artisan cache:clear"
 
@@ -38,6 +36,7 @@ COPY workflow-api/phpfpm/config/nginx.conf /etc/nginx/http.d/default.conf
 
 CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
 
+# Switch to use a non-root user from here on
 USER ${PHP_USER}
 
 WORKDIR /var/www

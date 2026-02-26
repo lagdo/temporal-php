@@ -28,8 +28,6 @@
     "applications": {
         "api": {
             "type": "php",
-            "user": "temporal",
-            "group": "temporal",
             "targets": {
                 "direct": {
                     "root": "/var/www/public/"

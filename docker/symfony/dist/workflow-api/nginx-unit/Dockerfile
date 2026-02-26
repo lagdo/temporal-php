@@ -8,10 +8,8 @@ ENV PHP_UID=${PHP_UID}
 ENV PHP_GID=${PHP_GID}
 
 ENV COMMAND_DIR=/var/www
-ENV COMMAND_USER=${PHP_USER}
-
 ENV RUN_INSTALL=true
-
+ENV INSTALL_OPTIONS=install
 ENV RUN_CACHE_CLEAR=true
 ENV CACHE_CLEAR_COMMAND="bin/console cache:clear"
 
@@ -25,11 +23,18 @@ RUN set -xe && \
   addgroup -g ${PHP_GID} --system ${PHP_USER} && \
   adduser -G ${PHP_USER} --system -D -s /bin/sh -u ${PHP_UID} ${PHP_USER} && \
   # Create project root
+  touch /var/run/unit.pid && \
+  touch /var/log/unit.log && \
+  mkdir -p /usr/local/var && \
   mkdir -p /var/www && \
   # Make sure files/folders needed by the processes are accessible
-  chown -R ${PHP_USER}:${PHP_USER} /var/www
+  chown -R ${PHP_USER}:${PHP_USER} /var/log/unit.log \
+    /usr/local/var /var/www /var/run /run
 
 # Configure Nginx Unit
 COPY workflow-api/nginx-unit/config/www.json /docker-entrypoint.d/config.json
+
+# Switch to use a non-root user from here on
+USER ${PHP_USER}
 
 WORKDIR /var/www
