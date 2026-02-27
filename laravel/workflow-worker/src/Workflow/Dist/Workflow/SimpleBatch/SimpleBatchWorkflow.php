@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Sample\Workflow\Dist\Workflow\SimpleBatch;
 
 use Sample\Workflow\Dist\Activity\SimpleBatch\SimpleBatchActivityFacade as ActivityFacade;
-use React\Promise\FulfilledPromise;
 use Temporal\Promise;
 use Temporal\Workflow;
 use Generator;
@@ -37,8 +36,7 @@ class SimpleBatchWorkflow implements SimpleBatchWorkflowInterface
         foreach($itemIds as $itemId)
         {
             $this->pending[$itemId] = true;
-            /** @var FulfilledPromise */
-            $promise = Workflow::async(
+            $promises[$itemId] = Workflow::async(
                 function() use($itemId, $batchId, $options) {
                     $activity = ActivityFacade::instance();
 
@@ -63,9 +61,9 @@ class SimpleBatchWorkflow implements SimpleBatchWorkflowInterface
                     'success' => false,
                     'message' => $e->getMessage(),
                 ]
-            );
+            )
             // Execute this callback each time a task ends, whatever the status.
-            $promises[$itemId] = $promise->finally(fn() => $this->pending[$itemId] = false);
+            ->finally(fn() => $this->pending[$itemId] = false);
             // $promises[$itemId] = SimpleBatchChildWorkflowFacade::processItem($itemId, $batchId, $options);
         }
 
