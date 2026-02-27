@@ -24,7 +24,7 @@ class WorkflowStubCompilerPass implements CompilerPassInterface
      *
      * @return void
      */
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
         // Process the classes that are tagged as workflow.
         /** @var array<class-string,mixed> */

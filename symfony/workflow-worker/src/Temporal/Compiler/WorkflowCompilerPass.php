@@ -15,7 +15,7 @@ class WorkflowCompilerPass implements CompilerPassInterface
      *
      * @return void
      */
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
         $runtimeDefinition = $container->getDefinition(Runtime::class);
 
