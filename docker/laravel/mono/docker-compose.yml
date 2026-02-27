@@ -10,6 +10,7 @@ services:
         - PHP_GID=${PHP_GID:-1000}
     volumes:
      - ../../../laravel/workflow-app:/var/www
+     - ./workflow-app/rr.yaml:/usr/local/etc/rr.yaml
     environment:
       - TEMPORAL_TASK_QUEUE=temporal.laravel.queue
       - TEMPORAL_SERVER_ENDPOINT=temporal.addr:7233

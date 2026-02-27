@@ -10,6 +10,7 @@ services:
         - PHP_GID=${PHP_GID:-1000}
     volumes:
      - ../../../laravel/activity-worker:/var/www
+     - ./activity-worker/rr.yaml:/usr/local/etc/rr.yaml
     environment:
       - WORKFLOW_TASK_QUEUE=workflow.laravel.queue
       - ACTIVITY_TASK_QUEUE=activity.laravel.queue
@@ -39,6 +40,7 @@ services:
         - PHP_GID=${PHP_GID:-1000}
     volumes:
      - ../../../laravel/workflow-worker:/var/www
+     - ./workflow-worker/rr.yaml:/usr/local/etc/rr.yaml
     environment:
       - WORKFLOW_TASK_QUEUE=workflow.laravel.queue
       - ACTIVITY_TASK_QUEUE=activity.laravel.queue
@@ -57,8 +59,8 @@ services:
       - "temporal.addr=host-gateway"
       - "collector.addr=host-gateway"
 
-  # workflow-api-nginx-unit:
   workflow-api:
+  # workflow-api-nginx-unit:
     container_name: laravel-workflow-api-nginx-unit
     build:
       context: ./
@@ -69,6 +71,7 @@ services:
         - PHP_GID=${PHP_GID:-1000}
     volumes:
      - ../../../laravel/workflow-api:/var/www
+     - ./workflow-api/rr.yaml:/usr/local/etc/rr.yaml
     environment:
       - WORKFLOW_TASK_QUEUE=workflow.laravel.queue
       - ACTIVITY_TASK_QUEUE=activity.laravel.queue
@@ -100,6 +103,7 @@ services:
   #       - PHP_GID=${PHP_GID:-1000}
   #   volumes:
   #    - ../../../laravel/workflow-api:/var/www
+  #    - ./workflow-api/rr.yaml:/usr/local/etc/rr.yaml
   #   environment:
   #     - WORKFLOW_TASK_QUEUE=workflow.laravel.queue
   #     - ACTIVITY_TASK_QUEUE=activity.laravel.queue
@@ -131,6 +135,7 @@ services:
   #       - PHP_GID=${PHP_GID:-1000}
   #   volumes:
   #    - ../../../laravel/workflow-api:/var/www
+  #    - ./workflow-api/rr.yaml:/usr/local/etc/rr.yaml
   #   environment:
   #     - WORKFLOW_TASK_QUEUE=workflow.laravel.queue
   #     - ACTIVITY_TASK_QUEUE=activity.laravel.queue
@@ -162,6 +167,7 @@ services:
   #       - PHP_GID=${PHP_GID:-1000}
   #   volumes:
   #    - ../../../laravel/workflow-api:/var/www
+  #    - ./workflow-api/rr.yaml:/usr/local/etc/rr.yaml
   #   environment:
   #     - WORKFLOW_TASK_QUEUE=workflow.laravel.queue
   #     - ACTIVITY_TASK_QUEUE=activity.laravel.queue

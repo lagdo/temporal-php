@@ -1,0 +1,44 @@
+version: "3"
+
+rpc:
+  listen: tcp://127.0.0.1:6001
+
+server:
+  command: "php /var/www/vendor/bin/rr-worker start"
+
+http:
+  address: 0.0.0.0:80
+  pool:
+    debug: false
+  middleware: [ "static", "gzip", "otel" ]
+  uploads:
+    forbid: [ ".php", ".exe", ".bat" ]
+  static:
+    dir: "/var/www/public"
+    forbid: [ ".php", ".htaccess" ]
+
+temporal:
+  address: temporal.addr:7233
+  activities:
+    num_workers: 4
+
+logs:
+  mode: development
+  channels:
+    http:
+      level: debug # Log all http requests, set to info to disable
+    server:
+      level: info # Everything written to worker stderr is logged
+      mode: raw
+    metrics:
+      level: debug
+
+otel:
+  insecure: true
+  compress: false
+  client: http
+  exporter: otlp
+  resource:
+    service_name: ${OTEL_SERVICE_NAME:-temporal-all-in-one-app}
+    service_version: 1.0.0
+  endpoint: ${OTEL_HOST:-collector.addr}:${OTEL_PORT:-4318}

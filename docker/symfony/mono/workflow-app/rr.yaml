@@ -4,11 +4,7 @@ rpc:
   listen: tcp://127.0.0.1:6001
 
 server:
-  command: "php public/index.php"
-  env:
-    APP_RUNTIME: Baldinof\RoadRunnerBundle\Runtime\Runtime
-  user: "temporal"
-  group: "temporal"
+  command: "php /var/www/boot/app.php"
 
 http:
   address: 0.0.0.0:80
@@ -18,11 +14,18 @@ http:
   uploads:
     forbid: [ ".php", ".exe", ".bat" ]
   static:
-    dir: "public"
+    dir: "/var/www/public"
     forbid: [ ".php", ".htaccess" ]
+
+temporal:
+  address: ${TEMPORAL_HOST:-temporal.addr}:${TEMPORAL_PORT:-7233}
+  activities:
+    num_workers: 4
 
 logs:
   mode: development
+  output: stdout
+  err_output: stderr
   channels:
     http:
       level: debug # Log all http requests, set to info to disable
@@ -38,6 +41,6 @@ otel:
   client: http
   exporter: otlp
   resource:
-    service_name: run-workflow-api
+    service_name: run-temporal-samples
     service_version: 1.0.0
   endpoint: ${OTEL_HOST:-collector.addr}:${OTEL_PORT:-4318}

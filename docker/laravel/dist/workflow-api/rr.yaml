@@ -4,9 +4,7 @@ rpc:
   listen: tcp://127.0.0.1:6001
 
 server:
-  command: "php vendor/bin/rr-worker start"
-  user: "temporal"
-  group: "temporal"
+  command: "php /var/www/vendor/bin/rr-worker start"
 
 http:
   address: 0.0.0.0:80
@@ -16,13 +14,8 @@ http:
   uploads:
     forbid: [ ".php", ".exe", ".bat" ]
   static:
-    dir: "public"
+    dir: "/var/www/public"
     forbid: [ ".php", ".htaccess" ]
-
-temporal:
-  address: temporal.addr:7233
-  activities:
-    num_workers: 4
 
 logs:
   mode: development
@@ -41,6 +34,6 @@ otel:
   client: http
   exporter: otlp
   resource:
-    service_name: ${OTEL_SERVICE_NAME:-temporal-all-in-one-app}
+    service_name: ${OTEL_SERVICE_NAME:-temporal-workflow-api}
     service_version: 1.0.0
   endpoint: ${OTEL_HOST:-collector.addr}:${OTEL_PORT:-4318}

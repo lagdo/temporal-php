@@ -4,9 +4,9 @@ rpc:
   listen: tcp://127.0.0.1:6001
 
 server:
-  command: "php vendor/bin/rr-worker start"
-  user: "temporal"
-  group: "temporal"
+  command: "php /var/www/public/index.php"
+  env:
+    APP_RUNTIME: Baldinof\RoadRunnerBundle\Runtime\Runtime
 
 http:
   address: 0.0.0.0:80
@@ -16,7 +16,7 @@ http:
   uploads:
     forbid: [ ".php", ".exe", ".bat" ]
   static:
-    dir: "public"
+    dir: "/var/www/public"
     forbid: [ ".php", ".htaccess" ]
 
 logs:
@@ -36,6 +36,6 @@ otel:
   client: http
   exporter: otlp
   resource:
-    service_name: ${OTEL_SERVICE_NAME:-temporal-workflow-api}
+    service_name: run-workflow-api
     service_version: 1.0.0
   endpoint: ${OTEL_HOST:-collector.addr}:${OTEL_PORT:-4318}

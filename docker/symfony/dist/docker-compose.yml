@@ -10,6 +10,7 @@ services:
         - PHP_GID=${PHP_GID:-1000}
     volumes:
      - ../../../symfony/activity-worker:/var/www
+     - ./activity-worker/rr.yaml:/usr/local/etc/rr.yaml
     environment:
       - WORKFLOW_TASK_QUEUE=workflow.symfony.queue
       - ACTIVITY_TASK_QUEUE=activity.symfony.queue
@@ -39,6 +40,7 @@ services:
         - PHP_GID=${PHP_GID:-1000}
     volumes:
      - ../../../symfony/workflow-worker:/var/www
+     - ./workflow-worker/rr.yaml:/usr/local/etc/rr.yaml
     environment:
       - WORKFLOW_TASK_QUEUE=workflow.symfony.queue
       - ACTIVITY_TASK_QUEUE=activity.symfony.queue
@@ -57,8 +59,8 @@ services:
       - "temporal.addr=host-gateway"
       - "collector.addr=host-gateway"
 
-  # workflow-api-nginx-unit:
   workflow-api:
+  # workflow-api-nginx-unit:
     container_name: symfony-workflow-api-nginx-unit
     build:
       context: ./
@@ -69,6 +71,7 @@ services:
         - PHP_GID=${PHP_GID:-1000}
     volumes:
      - ../../../symfony/workflow-api:/var/www
+     - ./workflow-api/rr.yaml:/usr/local/etc/rr.yaml
     environment:
       - WORKFLOW_TASK_QUEUE=workflow.symfony.queue
       - ACTIVITY_TASK_QUEUE=activity.symfony.queue
@@ -100,6 +103,7 @@ services:
   #       - PHP_GID=${PHP_GID:-1000}
   #   volumes:
   #    - ../../../symfony/workflow-api:/var/www
+  #    - ./workflow-api/rr.yaml:/usr/local/etc/rr.yaml
   #   environment:
   #     - WORKFLOW_TASK_QUEUE=workflow.symfony.queue
   #     - ACTIVITY_TASK_QUEUE=activity.symfony.queue
@@ -131,6 +135,7 @@ services:
   #       - PHP_GID=${PHP_GID:-1000}
   #   volumes:
   #    - ../../../symfony/workflow-api:/var/www
+  #    - ./workflow-api/rr.yaml:/usr/local/etc/rr.yaml
   #   environment:
   #     - WORKFLOW_TASK_QUEUE=workflow.symfony.queue
   #     - ACTIVITY_TASK_QUEUE=activity.symfony.queue
@@ -162,6 +167,7 @@ services:
   #       - PHP_GID=${PHP_GID:-1000}
   #   volumes:
   #    - ../../../symfony/workflow-api:/var/www
+  #    - ./workflow-api/rr.yaml:/usr/local/etc/rr.yaml
   #   environment:
   #     - WORKFLOW_TASK_QUEUE=workflow.symfony.queue
   #     - ACTIVITY_TASK_QUEUE=activity.symfony.queue

@@ -13,6 +13,9 @@ ENV INSTALL_OPTIONS=install
 ENV RUN_CACHE_CLEAR=true
 ENV CACHE_CLEAR_COMMAND="bin/console cache:clear"
 
+ARG RR_CONFIG_FILE
+ENV RR_CONFIG_FILE=/usr/local/etc/rr.yaml
+
 RUN set -xe && \
   apk add --no-cache --virtual .build-deps bash git wget vim && \
   # Install PHP debug extensions
@@ -22,8 +25,9 @@ RUN set -xe && \
   adduser -G ${PHP_USER} --system -D -s /bin/sh -u ${PHP_UID} ${PHP_USER} && \
   # Create project root
   mkdir -p /var/www && \
+  mkdir -p /usr/local/etc && \
   # Make sure files/folders needed by the processes are accessible
-  chown -R ${PHP_USER}:${PHP_USER} /var/www
+  chown -R ${PHP_USER}:${PHP_USER} /var/www /usr/local/etc
 
 # Switch to use a non-root user from here on
 USER ${PHP_USER}

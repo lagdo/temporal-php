@@ -4,9 +4,7 @@ rpc:
   listen: tcp://127.0.0.1:6001
 
 server:
-  command: "php artisan temporal:runtime:run"
-  user: "temporal"
-  group: "temporal"
+  command: "php /var/www/artisan temporal:runtime:run"
 
 temporal:
   address: ${TEMPORAL_HOST:-temporal.addr}:${TEMPORAL_PORT:-7233}
@@ -26,6 +24,6 @@ otel:
   client: http
   exporter: otlp
   resource:
-    service_name: ${OTEL_SERVICE_NAME:-temporal-workflow-worker}
+    service_name: ${OTEL_SERVICE_NAME:-temporal-activity-worker}
     service_version: 1.0.0
   endpoint: ${OTEL_HOST:-collector.addr}:${OTEL_PORT:-4318}
